@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nats:
+    image: nats:2.10-alpine
+    command: -js
+    ports:
+      - "4222:4222" # Client port
+      - "8222:8222" # Monitoring port
+    healthcheck:
+      test: ["CMD", "nats", "-s", "nats://localhost:4222", "req", "--timeout", "1s", ">", "/dev/null"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+
+  producer:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    environment:
+      - NATS_URL=nats://nats:4222
+      - NATS_SUBJECT=orders.created
+      - PUBLISH_INTERVAL_SECONDS=1
+    depends_on:
+      nats:
+        condition: service_healthy
+
+  consumer:
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    environment:
+      - NATS_URL=nats://nats:4222
+      - NATS_SUBJECT=orders.created
+    depends_on:
+      nats:
+        condition: service_healthy
+
