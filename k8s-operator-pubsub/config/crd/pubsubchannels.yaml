@@ -1,0 +1,161 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: pubsubchannels.pubsub.jawaracloud.io
+spec:
+  group: pubsub.jawaracloud.io
+  names:
+    kind: PubSubChannel
+    listKind: PubSubChannelList
+    plural: pubsubchannels
+    singular: pubsubchannel
+    shortNames:
+    - psc
+  scope: Namespaced
+  versions:
+  - name: v1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            properties:
+              channelName:
+                type: string
+                minLength: 1
+              redisAddress:
+                type: string
+                default: "dragonfly:6379"
+              replicas:
+                type: integer
+                minimum: 1
+                maximum: 100
+                default: 1
+              autoScaling:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    default: false
+                  minReplicas:
+                    type: integer
+                    minimum: 1
+                    default: 1
+                  maxReplicas:
+                    type: integer
+                    minimum: 1
+                    default: 10
+                  targetQueueDepth:
+                    type: integer
+                    minimum: 1
+                    default: 100
+                  scaleUpThreshold:
+                    type: integer
+                    minimum: 1
+                    maximum: 1000
+                    default: 150
+                  scaleDownThreshold:
+                    type: integer
+                    minimum: 1
+                    maximum: 100
+                    default: 50
+                  cooldownPeriod:
+                    type: integer
+                    default: 60
+              messageTimeout:
+                type: integer
+                default: 30
+              image:
+                type: string
+                default: "jawaracloud/subscriber:latest"
+              resources:
+                type: object
+                properties:
+                  limits:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  requests:
+                    type: object
+                    additionalProperties:
+                      type: string
+              env:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+          status:
+            type: object
+            properties:
+              conditions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    status:
+                      type: string
+                    lastTransitionTime:
+                      type: string
+                      format: date-time
+                    reason:
+                      type: string
+                    message:
+                      type: string
+              replicas:
+                type: integer
+              readyReplicas:
+                type: integer
+              queueDepth:
+                type: integer
+              messageRate:
+                type: number
+              lastScaleTime:
+                type: string
+                format: date-time
+              phase:
+                type: string
+                enum:
+                - Pending
+                - Running
+                - Scaling
+                - Failed
+                - Deleting
+              observedGeneration:
+                type: integer
+    subresources:
+      status: {}
+      scale:
+        specReplicasPath: .spec.replicas
+        statusReplicasPath: .status.replicas
+        labelSelectorPath: .status.selector
+    additionalPrinterColumns:
+    - name: Channel
+      type: string
+      jsonPath: .spec.channelName
+    - name: Phase
+      type: string
+      jsonPath: .status.phase
+    - name: Replicas
+      type: integer
+      jsonPath: .status.replicas
+    - name: Queue
+      type: integer
+      jsonPath: .status.queueDepth
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp

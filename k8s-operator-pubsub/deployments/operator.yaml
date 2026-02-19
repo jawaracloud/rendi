@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: pubsub-operator-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pubsub-operator-controller-manager
+  namespace: pubsub-operator-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pubsub-operator-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pubsub.jawaracloud.io
+  resources:
+  - pubsubchannels
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pubsub.jawaracloud.io
+  resources:
+  - pubsubchannels/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pubsub.jawaracloud.io
+  resources:
+  - pubsubchannels/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pubsub-operator-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pubsub-operator-manager-role
+subjects:
+- kind: ServiceAccount
+  name: pubsub-operator-controller-manager
+  namespace: pubsub-operator-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pubsub-operator
+    control-plane: controller-manager
+  name: pubsub-operator-controller-manager
+  namespace: pubsub-operator-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubsub-operator
+      control-plane: controller-manager
+  template:
+    metadata:
+      labels:
+        app: pubsub-operator
+        control-plane: controller-manager
+    spec:
+      serviceAccountName: pubsub-operator-controller-manager
+      containers:
+      - name: manager
+        image: jawaracloud/pubsub-operator:latest
+        imagePullPolicy: IfNotPresent
+        command:
+        - /manager
+        args:
+        - --leader-elect
+        - --metrics-bind-address=:8080
+        - --health-probe-bind-address=:8081
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        - containerPort: 8081
+          name: health
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault

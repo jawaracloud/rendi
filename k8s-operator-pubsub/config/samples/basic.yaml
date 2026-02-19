@@ -1,0 +1,9 @@
+apiVersion: pubsub.jawaracloud.io/v1
+kind: PubSubChannel
+metadata:
+  name: basic-channel
+spec:
+  channelName: messages
+  redisAddress: dragonfly:6379
+  replicas: 3
+  image: jawaracloud/subscriber:latest
