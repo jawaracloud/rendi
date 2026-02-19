@@ -5,16 +5,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
 	"github.com/jawaracloud/waiting-room-demo/pkg/models"
 )
 
-const (
-	BaseURL = "http://localhost:8080"
+var (
+	BaseURL = getEnv("BASE_URL", "http://localhost:8080")
 	Users   = 50
 )
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
 
 func main() {
 	var wg sync.WaitGroup

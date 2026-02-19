@@ -1,23 +1,104 @@
+name: waiting-room-demo
+
 services:
   waiting-room:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
       - REDIS_ADDR=dragonfly:6379
       - NATS_URL=nats://nats:4222
-      - JWT_SECRET=jawaracloud-super-secret
+      - JWT_SECRET=${JWT_SECRET:-jawaracloud-dev-secret}
+      - PORT=8080
     depends_on:
-      - dragonfly
-      - nats
+      dragonfly:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - waiting-room-net
+    restart: unless-stopped
 
   dragonfly:
-    image: 'docker.guest.dragonflydb.io/dragonflydb/dragonfly'
+    image: docker.dragonflydb.io/dragonflydb/dragonfly:latest
     ports:
       - "6379:6379"
+    ulimits:
+      memlock: -1
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - waiting-room-net
+    restart: unless-stopped
 
   nats:
-    image: 'nats:latest'
+    image: nats:2.10-alpine
     ports:
       - "4222:4222"
       - "8222:8222"
+    command: "-js -m 8222"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/varz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - waiting-room-net
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    profiles:
+      - observability
+    networks:
+      - waiting-room-net
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    depends_on:
+      - prometheus
+    profiles:
+      - observability
+    networks:
+      - waiting-room-net
+    restart: unless-stopped
+
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.simulator
+    environment:
+      - BASE_URL=http://waiting-room:8080
+    depends_on:
+      waiting-room:
+        condition: service_healthy
+    profiles:
+      - simulation
+    networks:
+      - waiting-room-net
+
+networks:
+  waiting-room-net:
+    driver: bridge
