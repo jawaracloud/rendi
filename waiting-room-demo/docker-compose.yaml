@@ -1,0 +1,23 @@
+services:
+  waiting-room:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_ADDR=dragonfly:6379
+      - NATS_URL=nats://nats:4222
+      - JWT_SECRET=jawaracloud-super-secret
+    depends_on:
+      - dragonfly
+      - nats
+
+  dragonfly:
+    image: 'docker.guest.dragonflydb.io/dragonflydb/dragonfly'
+    ports:
+      - "6379:6379"
+
+  nats:
+    image: 'nats:latest'
+    ports:
+      - "4222:4222"
+      - "8222:8222"
