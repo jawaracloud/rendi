@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playwright Test Components</title>
+  <style>
+    :root { --primary: #4f46e5; --text: #1e1e2e; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--primary); color: white; padding: 2rem; text-align: center; }
+    header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    header p { opacity: 0.85; }
+    main { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem; text-decoration: none; color: inherit; transition: box-shadow .2s; }
+    .card:hover { box-shadow: 0 4px 20px rgba(79,70,229,.15); }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .card h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.875rem; color: #64748b; }
+    .card .badge { display: inline-block; margin-top: 0.75rem; padding: 2px 8px;
+                   background: #e0e7ff; color: var(--primary); border-radius: 999px;
+                   font-size: 0.75rem; font-weight: 600; }
+    footer { text-align: center; padding: 3rem 1rem; color: #64748b; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎭 Playwright Test Components</h1>
+    <p>A comprehensive component library for the 100-lesson automation testing series</p>
+  </header>
+  <main>
+    <div class="grid">
+      <a href="/pages/buttons.html" class="card" data-testid="nav-buttons">
+        <div class="card-icon">🖱️</div>
+        <h2>Buttons &amp; Links</h2>
+        <p>Click, disabled, loading, toggle, links, keyboard</p>
+        <span class="badge">Lessons 11–20</span>
+      </a>
+      <a href="/pages/forms.html" class="card" data-testid="nav-forms">
+        <div class="card-icon">📝</div>
+        <h2>Form Components</h2>
+        <p>Inputs, validation, selects, checkboxes, radios, submission</p>
+        <span class="badge">Lessons 21–30</span>
+      </a>
+      <a href="/pages/advanced-inputs.html" class="card" data-testid="nav-advanced-inputs">
+        <div class="card-icon">🎛️</div>
+        <h2>Advanced Inputs</h2>
+        <p>Date picker, slider, file upload, rich text, OTP, rating</p>
+        <span class="badge">Lessons 31–40</span>
+      </a>
+      <a href="/pages/navigation.html" class="card" data-testid="nav-navigation">
+        <div class="card-icon">🧭</div>
+        <h2>Navigation &amp; Layout</h2>
+        <p>Navbar, tabs, modals, toasts, pagination, accordion, stepper</p>
+        <span class="badge">Lessons 41–50</span>
+      </a>
+      <a href="/pages/data-display.html" class="card" data-testid="nav-data-display">
+        <div class="card-icon">📊</div>
+        <h2>Data Display</h2>
+        <p>Tables (sort, filter, paginate), cards, trees, empty states</p>
+        <span class="badge">Lessons 51–60</span>
+      </a>
+      <a href="/pages/interactive.html" class="card" data-testid="nav-interactive">
+        <div class="card-icon">⚡</div>
+        <h2>Interactive</h2>
+        <p>Drag-drop, carousel, tooltips, popovers, infinite scroll</p>
+        <span class="badge">Lessons 61–70</span>
+      </a>
+      <a href="/pages/auth.html" class="card" data-testid="nav-auth">
+        <div class="card-icon">🔐</div>
+        <h2>Auth Flows</h2>
+        <p>Login, register, CRUD, role-based access, checkout</p>
+        <span class="badge">Lessons 81–90</span>
+      </a>
+      <a href="/pages/api-mock.html" class="card" data-testid="nav-api-mock">
+        <div class="card-icon">🔌</div>
+        <h2>API &amp; Network</h2>
+        <p>Fetch data, intercept, mock responses, error states</p>
+        <span class="badge">Lessons 78–79</span>
+      </a>
+    </div>
+  </main>
+  <footer>
+    <p>Playwright Series · Test App · For learning purposes only</p>
+  </footer>
+</body>
+</html>

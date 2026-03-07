@@ -12,6 +12,7 @@ This directory contains experimental, cloud-native projects and production-grade
 | **[nats-event-driven-demo](./nats-event-driven-demo)** | Event-driven microservices | Go, NATS JetStream |
 | **[golang-pubsub](./golang-pubsub)** | Real-time TUI dashboard for Pub/Sub | Go, Bubble Tea, Redis |
 | **[webassembly-series](./webassembly-series)** | 100-lesson learning series: WebAssembly with Rust & Leptos | Rust, Wasm, Leptos, Axum |
+| **[playwright-series](./playwright-series)** | 100-lesson UI component automation testing series | Playwright, TypeScript, Node.js |
 
 ## 📖 Standards
 

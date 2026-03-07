@@ -1,0 +1,30 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    image: playwright-series-dev:latest
+    container_name: playwright-series
+
+    volumes:
+      - .:/workspace
+      - node-modules:/workspace/node_modules
+      - playwright-cache:/home/vscode/.cache/ms-playwright
+
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+
+    ports:
+      - "3000:3000"   # test app
+      - "9323:9323"   # allure report
+
+    command: bash
+
+    environment:
+      - BASE_URL=http://localhost:3000
+      - CI=false
+
+volumes:
+  node-modules:
+  playwright-cache:

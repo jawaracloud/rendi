@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forms — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>Form Components (Lessons 21–30)</span>
+    </nav>
+    <main class="container">
+
+        <!-- Text inputs -->
+        <section class="section">
+            <h2>Text Inputs</h2>
+            <div class="form-group">
+                <label class="label" for="input-text">Username</label>
+                <input id="input-text" data-testid="input-username" type="text" class="input"
+                    placeholder="Enter username" />
+            </div>
+            <div class="form-group">
+                <label class="label" for="input-email">Email *</label>
+                <input id="input-email" data-testid="input-email" type="email" class="input"
+                    placeholder="you@example.com" required />
+                <span class="error-msg" data-testid="email-error">Please enter a valid email</span>
+            </div>
+            <div class="form-group">
+                <label class="label" for="input-number">Quantity (1–99)</label>
+                <input id="input-number" data-testid="input-quantity" type="number" class="input" min="1" max="99"
+                    value="1" />
+            </div>
+        </section>
+
+        <!-- Password -->
+        <section class="section">
+            <h2>Password Field</h2>
+            <div class="form-group" style="position:relative">
+                <label class="label" for="input-password">Password</label>
+                <input id="input-password" data-testid="input-password" type="password" class="input"
+                    placeholder="Min 8 characters" style="padding-right:2.5rem" />
+                <button data-testid="btn-show-password" type="button"
+                    style="position:absolute;right:.5rem;bottom:.45rem;background:none;border:none;cursor:pointer;"
+                    aria-label="Show password">👁️</button>
+            </div>
+            <div data-testid="password-strength"
+                style="height:4px;background:#e2e8f0;border-radius:2px;margin-top:.5rem">
+                <div data-testid="strength-bar"
+                    style="height:100%;width:0%;background:var(--danger);border-radius:2px;transition:width .3s,background .3s">
+                </div>
+            </div>
+            <span data-testid="strength-label" class="hint"></span>
+        </section>
+
+        <!-- Textarea -->
+        <section class="section">
+            <h2>Textarea</h2>
+            <div class="form-group">
+                <label class="label" for="textarea-bio">Bio</label>
+                <textarea id="textarea-bio" data-testid="textarea-bio" class="textarea"
+                    placeholder="Tell us about yourself…" maxlength="200"></textarea>
+                <p class="hint"><span data-testid="char-count">0</span>/200 characters</p>
+            </div>
+        </section>
+
+        <!-- Select -->
+        <section class="section">
+            <h2>Select Dropdown</h2>
+            <div class="form-group">
+                <label class="label" for="select-country">Country</label>
+                <select id="select-country" data-testid="select-country" class="select">
+                    <option value="">-- Select country --</option>
+                    <option value="id">🇮🇩 Indonesia</option>
+                    <option value="us">🇺🇸 United States</option>
+                    <option value="jp">🇯🇵 Japan</option>
+                    <option value="de">🇩🇪 Germany</option>
+                    <option value="au">🇦🇺 Australia</option>
+                </select>
+                <p data-testid="country-result" class="result"></p>
+            </div>
+        </section>
+
+        <!-- Checkboxes -->
+        <section class="section">
+            <h2>Checkboxes</h2>
+            <div class="check-group">
+                <label class="check-label">
+                    <input type="checkbox" data-testid="cb-html" value="html" />
+                    HTML
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" data-testid="cb-css" value="css" />
+                    CSS
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" data-testid="cb-js" value="javascript" />
+                    JavaScript
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" data-testid="cb-ts" value="typescript" checked />
+                    TypeScript
+                </label>
+            </div>
+            <p data-testid="checkbox-result" class="result"></p>
+        </section>
+
+        <!-- Radio buttons -->
+        <section class="section">
+            <h2>Radio Buttons</h2>
+            <div class="check-group">
+                <label class="check-label">
+                    <input type="radio" name="plan" data-testid="radio-free" value="free" checked />
+                    Free plan
+                </label>
+                <label class="check-label">
+                    <input type="radio" name="plan" data-testid="radio-pro" value="pro" />
+                    Pro plan ($9/mo)
+                </label>
+                <label class="check-label">
+                    <input type="radio" name="plan" data-testid="radio-enterprise" value="enterprise" />
+                    Enterprise (contact us)
+                </label>
+            </div>
+            <p data-testid="radio-result" class="result"></p>
+        </section>
+
+        <!-- Full form with validation -->
+        <section class="section">
+            <h2>Form Submission &amp; Validation</h2>
+            <form data-testid="signup-form" novalidate>
+                <div class="form-group">
+                    <label class="label" for="signup-name">Full Name *</label>
+                    <input id="signup-name" data-testid="signup-name" type="text" class="input" required
+                        minlength="2" />
+                    <span class="error-msg" data-testid="name-error">Name must be at least 2 characters</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="signup-email-2">Email *</label>
+                    <input id="signup-email-2" data-testid="signup-email" type="email" class="input" required />
+                    <span class="error-msg" data-testid="signup-email-error">Invalid email address</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="signup-pw">Password *</label>
+                    <input id="signup-pw" data-testid="signup-password" type="password" class="input" required
+                        minlength="8" />
+                    <span class="error-msg" data-testid="signup-password-error">Password must be at least 8
+                        characters</span>
+                </div>
+                <label class="check-label" style="margin-bottom:1rem">
+                    <input type="checkbox" data-testid="agree-terms" required />
+                    I agree to the Terms of Service
+                </label>
+                <div class="row">
+                    <button type="submit" data-testid="signup-submit" class="btn btn-primary">Create Account</button>
+                    <button type="reset" data-testid="signup-reset" class="btn btn-outline">Reset</button>
+                </div>
+                <p data-testid="form-result" class="result"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        // Char counter for textarea
+        const bio = document.querySelector('[data-testid="textarea-bio"]');
+        bio.addEventListener('input', () => {
+            document.querySelector('[data-testid="char-count"]').textContent = bio.value.length;
+        });
+
+        // Country select
+        document.querySelector('[data-testid="select-country"]').addEventListener('change', e => {
+            const opt = e.target.selectedOptions[0];
+            document.querySelector('[data-testid="country-result"]').textContent =
+                opt.value ? `Selected: ${opt.text}` : '';
+        });
+
+        // Checkbox result
+        document.querySelectorAll('[type="checkbox"][data-testid^="cb-"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checked = [...document.querySelectorAll('[type="checkbox"][data-testid^="cb-"]:checked')]
+                    .map(c => c.value).join(', ');
+                document.querySelector('[data-testid="checkbox-result"]').textContent =
+                    checked ? `Selected: ${checked}` : 'None selected';
+            });
+        });
+
+        // Radio result
+        document.querySelectorAll('[name="plan"]').forEach(r => {
+            r.addEventListener('change', e => {
+                document.querySelector('[data-testid="radio-result"]').textContent = `Plan: ${e.target.value}`;
+            });
+        });
+
+        // Show/hide password
+        document.querySelector('[data-testid="btn-show-password"]').addEventListener('click', () => {
+            const pw = document.querySelector('[data-testid="input-password"]');
+            pw.type = pw.type === 'password' ? 'text' : 'password';
+        });
+
+        // Password strength
+        document.querySelector('[data-testid="input-password"]').addEventListener('input', e => {
+            const v = e.target.value;
+            let score = 0;
+            if (v.length >= 8) score++;
+            if (/[A-Z]/.test(v)) score++;
+            if (/[0-9]/.test(v)) score++;
+            if (/[^A-Za-z0-9]/.test(v)) score++;
+            const colors = ['', '#dc2626', '#f97316', '#eab308', '#16a34a'];
+            const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+            const bar = document.querySelector('[data-testid="strength-bar"]');
+            bar.style.width = `${score * 25}%`;
+            bar.style.background = colors[score] || 'transparent';
+            document.querySelector('[data-testid="strength-label"]').textContent = labels[score] || '';
+        });
+
+        // Form validation
+        document.querySelector('[data-testid="signup-form"]').addEventListener('submit', e => {
+            e.preventDefault();
+            const form = e.target;
+            let valid = true;
+
+            const name = form.querySelector('[data-testid="signup-name"]');
+            const nameErr = form.querySelector('[data-testid="name-error"]');
+            if (name.value.length < 2) {
+                name.classList.add('error'); nameErr.classList.add('visible'); valid = false;
+            } else {
+                name.classList.remove('error'); nameErr.classList.remove('visible');
+            }
+
+            const email = form.querySelector('[data-testid="signup-email"]');
+            const emailErr = form.querySelector('[data-testid="signup-email-error"]');
+            if (!email.value.includes('@')) {
+                email.classList.add('error'); emailErr.classList.add('visible'); valid = false;
+            } else {
+                email.classList.remove('error'); emailErr.classList.remove('visible');
+            }
+
+            const pw = form.querySelector('[data-testid="signup-password"]');
+            const pwErr = form.querySelector('[data-testid="signup-password-error"]');
+            if (pw.value.length < 8) {
+                pw.classList.add('error'); pwErr.classList.add('visible'); valid = false;
+            } else {
+                pw.classList.remove('error'); pwErr.classList.remove('visible');
+            }
+
+            const res = form.querySelector('[data-testid="form-result"]');
+            if (valid) {
+                res.textContent = '✅ Account created successfully!';
+                res.className = 'result ok';
+            } else {
+                res.textContent = '❌ Please fix the errors above.';
+                res.className = 'result err';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API &amp; Network Mock — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>API &amp; Network (Lessons 78–79)</span>
+    </nav>
+    <main class="container">
+
+        <section class="section">
+            <h2>Fetch Data (mockable)</h2>
+            <div class="row">
+                <button data-testid="btn-fetch-users" class="btn btn-primary">Load Users</button>
+                <button data-testid="btn-fetch-error" class="btn btn-danger">Trigger Error</button>
+            </div>
+            <div data-testid="fetch-status" class="result" style="margin-top:.75rem">Ready</div>
+            <ul data-testid="users-list"
+                style="list-style:none;margin-top:.75rem;display:flex;flex-direction:column;gap:.5rem"></ul>
+        </section>
+
+        <section class="section">
+            <h2>Network state</h2>
+            <p class="hint" style="margin-bottom:.75rem">
+                These endpoints are interceptable with <code>page.route()</code> in your tests.
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/api/users</code></td>
+                        <td>GET</td>
+                        <td>List users (mockable)</td>
+                    </tr>
+                    <tr>
+                        <td><code>/api/users/:id</code></td>
+                        <td>GET</td>
+                        <td>Single user</td>
+                    </tr>
+                    <tr>
+                        <td><code>/api/items</code></td>
+                        <td>POST</td>
+                        <td>Create item</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+    <script>
+        const MOCK_USERS = [
+            { id: 1, name: 'Alice', role: 'admin' },
+            { id: 2, name: 'Bob', role: 'user' },
+        ];
+
+        document.querySelector('[data-testid="btn-fetch-users"]').addEventListener('click', async () => {
+            const status = document.querySelector('[data-testid="fetch-status"]');
+            const list = document.querySelector('[data-testid="users-list"]');
+            status.textContent = 'Loading…'; status.className = 'result';
+            try {
+                const res = await fetch('/api/users');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                status.textContent = `Loaded ${data.length} user(s)`; status.className = 'result ok';
+                list.innerHTML = data.map(u =>
+                    `<li data-testid="api-user-${u.id}" style="padding:.5rem;background:#f1f5f9;border-radius:6px">
+            ${u.name} — ${u.role}
+          </li>`).join('');
+            } catch (err) {
+                status.textContent = `Error: ${err.message}`; status.className = 'result err';
+                list.innerHTML = '';
+            }
+        });
+
+        document.querySelector('[data-testid="btn-fetch-error"]').addEventListener('click', async () => {
+            const status = document.querySelector('[data-testid="fetch-status"]');
+            status.textContent = 'Loading…'; status.className = 'result';
+            try {
+                const res = await fetch('/api/nonexistent-endpoint-404');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            } catch (err) {
+                status.textContent = `Network error: ${err.message}`; status.className = 'result err';
+            }
+        });
+    </script>
+</body>
+
+</html>

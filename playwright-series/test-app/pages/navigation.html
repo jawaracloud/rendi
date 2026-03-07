@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navigation & Layout — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>Navigation &amp; Layout (Lessons 41–50)</span>
+    </nav>
+    <main class="container">
+
+        <!-- Tabs -->
+        <section class="section">
+            <h2>Tabs</h2>
+            <div class="tabs" role="tablist">
+                <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-overview"
+                    data-testid="tab-overview">Overview</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-settings"
+                    data-testid="tab-settings">Settings</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-billing"
+                    data-testid="tab-billing">Billing</button>
+            </div>
+            <div id="panel-overview" class="tab-panel active" role="tabpanel" data-testid="panel-overview">
+                <p>Overview content — welcome to the dashboard.</p>
+            </div>
+            <div id="panel-settings" class="tab-panel" role="tabpanel" data-testid="panel-settings">
+                <p>Settings content — manage your profile preferences.</p>
+            </div>
+            <div id="panel-billing" class="tab-panel" role="tabpanel" data-testid="panel-billing">
+                <p>Billing content — your current plan is <strong>Free</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Accordion -->
+        <section class="section">
+            <h2>Accordion</h2>
+            <div data-testid="accordion">
+                <div class="accordion-item"
+                    style="border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem">
+                    <button class="accordion-header" data-testid="accordion-btn-0" aria-expanded="false"
+                        style="width:100%;text-align:left;padding:.75rem 1rem;background:none;border:none;cursor:pointer;font-weight:600;display:flex;justify-content:space-between">
+                        What is Playwright? <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-body" data-testid="accordion-body-0"
+                        style="display:none;padding:.75rem 1rem;border-top:1px solid var(--border)">
+                        Playwright is an end-to-end testing framework developed by Microsoft.
+                    </div>
+                </div>
+                <div class="accordion-item"
+                    style="border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem">
+                    <button class="accordion-header" data-testid="accordion-btn-1" aria-expanded="false"
+                        style="width:100%;text-align:left;padding:.75rem 1rem;background:none;border:none;cursor:pointer;font-weight:600;display:flex;justify-content:space-between">
+                        Which browsers are supported? <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-body" data-testid="accordion-body-1"
+                        style="display:none;padding:.75rem 1rem;border-top:1px solid var(--border)">
+                        Chromium, Firefox, and WebKit (Safari engine).
+                    </div>
+                </div>
+                <div class="accordion-item"
+                    style="border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem">
+                    <button class="accordion-header" data-testid="accordion-btn-2" aria-expanded="false"
+                        style="width:100%;text-align:left;padding:.75rem 1rem;background:none;border:none;cursor:pointer;font-weight:600;display:flex;justify-content:space-between">
+                        Is Playwright free? <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-body" data-testid="accordion-body-2"
+                        style="display:none;padding:.75rem 1rem;border-top:1px solid var(--border)">
+                        Yes — Playwright is open source under the Apache 2.0 license.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <section class="section">
+            <h2>Modal Dialog</h2>
+            <div class="row">
+                <button data-testid="btn-open-modal" class="btn btn-primary">Open Modal</button>
+                <button data-testid="btn-open-confirm" class="btn btn-danger">Confirm Dialog</button>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="section">
+            <h2>Pagination</h2>
+            <div data-testid="page-content" style="padding:.75rem 0;font-size:.9rem">
+                Page <strong data-testid="current-page">1</strong> of 10 — showing items 1–10
+            </div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                <button data-testid="btn-prev" class="btn btn-outline" disabled>← Prev</button>
+                <button data-testid="btn-page-1" class="btn btn-primary" data-page="1">1</button>
+                <button data-testid="btn-page-2" class="btn btn-outline" data-page="2">2</button>
+                <button data-testid="btn-page-3" class="btn btn-outline" data-page="3">3</button>
+                <span style="padding:.5rem">…</span>
+                <button data-testid="btn-page-10" class="btn btn-outline" data-page="10">10</button>
+                <button data-testid="btn-next" class="btn btn-outline" data-page="next">Next →</button>
+            </div>
+        </section>
+
+        <!-- Toast notifications -->
+        <section class="section">
+            <h2>Toast Notifications</h2>
+            <div class="row">
+                <button data-testid="btn-toast-success" class="btn btn-success">✅ Success Toast</button>
+                <button data-testid="btn-toast-error" class="btn btn-danger">❌ Error Toast</button>
+                <button data-testid="btn-toast-info" class="btn btn-secondary">ℹ️ Info Toast</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal overlay -->
+    <div class="overlay" data-testid="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal">
+            <h2 id="modal-title" data-testid="modal-title">Example Modal</h2>
+            <p data-testid="modal-body">This is the modal body content. Press Escape or click Close to dismiss.</p>
+            <div class="modal-footer">
+                <button data-testid="btn-modal-cancel" class="btn btn-outline">Cancel</button>
+                <button data-testid="btn-modal-confirm" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm overlay -->
+    <div class="overlay" data-testid="confirm-overlay" role="alertdialog" aria-modal="true">
+        <div class="modal">
+            <h2 data-testid="confirm-title">Delete item?</h2>
+            <p>This action cannot be undone.</p>
+            <div class="modal-footer">
+                <button data-testid="btn-confirm-cancel" class="btn btn-outline">Cancel</button>
+                <button data-testid="btn-confirm-delete" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container" data-testid="toast-container"></div>
+
+    <script>
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.setAttribute('aria-selected', 'true');
+                document.getElementById(btn.getAttribute('aria-controls')).classList.add('active');
+            });
+        });
+
+        // Accordion
+        document.querySelectorAll('.accordion-header').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const expanded = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!expanded));
+                const body = btn.nextElementSibling;
+                body.style.display = expanded ? 'none' : 'block';
+                btn.querySelector('.accordion-arrow').textContent = expanded ? '▼' : '▲';
+            });
+        });
+
+        // Modal
+        const modal = document.querySelector('[data-testid="modal-overlay"]');
+        document.querySelector('[data-testid="btn-open-modal"]').addEventListener('click', () => modal.classList.add('open'));
+        document.querySelector('[data-testid="btn-modal-cancel"]').addEventListener('click', () => modal.classList.remove('open'));
+        document.querySelector('[data-testid="btn-modal-confirm"]').addEventListener('click', () => modal.classList.remove('open'));
+
+        // Confirm
+        const confirm = document.querySelector('[data-testid="confirm-overlay"]');
+        document.querySelector('[data-testid="btn-open-confirm"]').addEventListener('click', () => confirm.classList.add('open'));
+        document.querySelector('[data-testid="btn-confirm-cancel"]').addEventListener('click', () => confirm.classList.remove('open'));
+        document.querySelector('[data-testid="btn-confirm-delete"]').addEventListener('click', () => { confirm.classList.remove('open'); showToast('Item deleted', 'err'); });
+
+        // Escape to close modals
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { modal.classList.remove('open'); confirm.classList.remove('open'); }
+        });
+
+        // Pagination
+        let page = 1;
+        function setPage(p) {
+            page = Math.max(1, Math.min(10, p));
+            document.querySelector('[data-testid="current-page"]').textContent = page;
+            document.querySelector('[data-testid="btn-prev"]').disabled = page === 1;
+            document.querySelector('[data-testid="btn-next"]').disabled = page === 10;
+            document.querySelectorAll('[data-page]').forEach(btn => btn.className =
+                btn.dataset.page == page ? 'btn btn-primary' : 'btn btn-outline');
+        }
+        document.querySelector('[data-testid="btn-prev"]').addEventListener('click', () => setPage(page - 1));
+        document.querySelector('[data-testid="btn-next"]').addEventListener('click', () => setPage(page + 1));
+        document.querySelectorAll('[data-page]:not([data-page="next"])').forEach(btn =>
+            btn.addEventListener('click', () => setPage(parseInt(btn.dataset.page))));
+
+        // Toasts
+        function showToast(msg, type) {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            t.setAttribute('data-testid', `toast-${type}`);
+            document.querySelector('[data-testid="toast-container"]').appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+        document.querySelector('[data-testid="btn-toast-success"]').addEventListener('click', () => showToast('✅ Operation successful!', 'success'));
+        document.querySelector('[data-testid="btn-toast-error"]').addEventListener('click', () => showToast('❌ Something went wrong.', 'error'));
+        document.querySelector('[data-testid="btn-toast-info"]').addEventListener('click', () => showToast('ℹ️ Here is some information.', 'info'));
+    </script>
+</body>
+
+</html>

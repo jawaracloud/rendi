@@ -1,0 +1,5 @@
+This is a sample downloadable text file for Playwright testing.
+
+Lesson 88: File Download Verification
+
+Content: Hello from the test app!

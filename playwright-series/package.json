@@ -1,0 +1,24 @@
+{
+    "name": "playwright-series",
+    "version": "1.0.0",
+    "description": "100-lesson Playwright web automation testing series",
+    "scripts": {
+        "test": "playwright test",
+        "test:headed": "playwright test --headed",
+        "test:debug": "playwright test --debug",
+        "test:ui": "playwright test --ui",
+        "report": "playwright show-report",
+        "serve": "serve test-app -p 3000",
+        "verify": "bash scripts/verify-env.sh"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.50.0",
+        "@axe-core/playwright": "^4.10.0",
+        "typescript": "^5.4.5",
+        "allure-playwright": "^3.0.0",
+        "dotenv": "^16.4.5"
+    },
+    "engines": {
+        "node": ">=22"
+    }
+}

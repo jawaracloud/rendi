@@ -1,0 +1,50 @@
+{
+    "name": "Playwright Web Automation Testing Series",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "forwardPorts": [
+        3000,
+        9323
+    ],
+    "portsAttributes": {
+        "3000": {
+            "label": "Test App (serve)",
+            "onAutoForward": "openPreview"
+        },
+        "9323": {
+            "label": "Allure Report",
+            "onAutoForward": "openPreview"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.tabSize": 2,
+                "typescript.preferences.quoteStyle": "single",
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "files.watcherExclude": {
+                    "**/node_modules/**": true,
+                    "**/test-results/**": true,
+                    "**/playwright-report/**": true
+                }
+            },
+            "extensions": [
+                "ms-playwright.playwright",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ms-vscode.live-server",
+                "yzhang.markdown-all-in-one",
+                "eamodio.gitlens",
+                "usernamehw.errorlens"
+            ]
+        }
+    },
+    "remoteUser": "vscode",
+    "postCreateCommand": "npm install && bash scripts/verify-env.sh",
+    "runArgs": [
+        "--network=host"
+    ]
+}

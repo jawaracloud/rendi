@@ -1,0 +1,178 @@
+/* Shared stylesheet for all test-app pages */
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --text: #1e1e2e;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── Topbar ─────────────────────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  font-size: 0.9rem;
+}
+.topbar a { color: white; text-decoration: none; }
+.topbar a:hover { text-decoration: underline; }
+
+/* ── Container ──────────────────────────────────────────────────────────── */
+.container { max-width: 860px; margin: 2rem auto; padding: 0 1.5rem; }
+
+/* ── Section ────────────────────────────────────────────────────────────── */
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.section h2 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary); }
+
+/* ── Row ────────────────────────────────────────────────────────────────── */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  user-select: none;
+}
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.btn-primary   { background: var(--primary); color: white; }
+.btn-primary:hover:not(:disabled)   { background: var(--primary-dark); }
+.btn-secondary { background: #e0e7ff; color: var(--primary); }
+.btn-secondary:hover:not(:disabled) { background: #c7d2fe; }
+.btn-danger    { background: var(--danger); color: white; }
+.btn-danger:hover:not(:disabled)    { background: #b91c1c; }
+.btn-outline   { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.btn-outline:hover:not(:disabled)   { background: #e0e7ff; }
+.btn-icon      { padding: 0.5rem; background: transparent; font-size: 1.2rem; cursor: pointer; border: 1px solid var(--border); border-radius: var(--radius); }
+.btn-success   { background: var(--success); color: white; }
+
+/* ── Inputs ─────────────────────────────────────────────────────────────── */
+.input, .textarea, .select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--card);
+  color: var(--text);
+  transition: border-color .15s;
+}
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79,70,229,.15);
+}
+.input.error { border-color: var(--danger); }
+.input.success { border-color: var(--success); }
+
+.textarea { resize: vertical; min-height: 80px; }
+.select { appearance: auto; }
+
+/* ── Labels & form groups ───────────────────────────────────────────────── */
+.form-group { margin-bottom: 1rem; }
+.label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+.hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+.error-msg { color: var(--danger); font-size: 0.8rem; margin-top: 0.25rem; display: none; }
+.error-msg.visible { display: block; }
+
+/* ── Checkbox / Radio ───────────────────────────────────────────────────── */
+.check-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.check-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; }
+.check-label input { width: 16px; height: 16px; cursor: pointer; }
+
+/* ── Result area ────────────────────────────────────────────────────────── */
+.result {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  background: #f1f5f9;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-height: 2rem;
+}
+.result.ok  { background: #dcfce7; color: var(--success); }
+.result.err { background: #fee2e2; color: var(--danger); }
+
+/* ── Table ──────────────────────────────────────────────────────────────── */
+.table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.table th, .table td { padding: 0.6rem 0.9rem; border: 1px solid var(--border); text-align: left; }
+.table th { background: #f1f5f9; font-weight: 600; }
+.table tr:hover td { background: #f8fafc; }
+
+/* ── Modal ──────────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.overlay.open { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--card); border-radius: 12px; padding: 2rem;
+  max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.modal h2 { margin-bottom: 1rem; }
+.modal-footer { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* ── Tabs ───────────────────────────────────────────────────────────────── */
+.tabs { border-bottom: 2px solid var(--border); display: flex; gap: 0; margin-bottom: 1rem; }
+.tab-btn {
+  padding: 0.5rem 1.25rem; background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.9rem;
+  color: var(--muted); margin-bottom: -2px; font-weight: 500;
+}
+.tab-btn[aria-selected="true"] { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Toast ──────────────────────────────────────────────────────────────── */
+.toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; }
+.toast {
+  background: #1e293b; color: white; padding: 0.75rem 1.25rem;
+  border-radius: 8px; margin-top: 0.5rem; font-size: 0.875rem;
+  animation: slide-in .3s ease; max-width: 300px;
+}
+@keyframes slide-in { from { transform: translateX(120%); } to { transform: translateX(0); } }
+
+/* ── kbd ────────────────────────────────────────────────────────────────── */
+kbd {
+  background: #e2e8f0; border: 1px solid #cbd5e1;
+  border-radius: 4px; padding: 0.1rem 0.4rem;
+  font-size: 0.8rem; font-family: monospace;
+}

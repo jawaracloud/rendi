@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buttons &amp; Links — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>Buttons &amp; Links (Lessons 11–20)</span>
+    </nav>
+    <main class="container">
+
+        <section class="section" id="basic-buttons">
+            <h2>Basic Buttons</h2>
+            <div class="row">
+                <button data-testid="btn-primary" class="btn btn-primary">Primary</button>
+                <button data-testid="btn-secondary" class="btn btn-secondary">Secondary</button>
+                <button data-testid="btn-danger" class="btn btn-danger">Danger</button>
+                <button data-testid="btn-outline" class="btn btn-outline">Outline</button>
+                <button data-testid="btn-disabled" class="btn btn-primary" disabled>Disabled</button>
+            </div>
+            <p id="btn-result" data-testid="btn-result" class="result"></p>
+        </section>
+
+        <section class="section" id="button-states">
+            <h2>Button States</h2>
+            <div class="row">
+                <button data-testid="btn-toggle" class="btn btn-secondary" aria-pressed="false">
+                    Toggle (OFF)
+                </button>
+                <button data-testid="btn-loading" class="btn btn-primary">
+                    Submit
+                </button>
+                <button data-testid="btn-counter" class="btn btn-outline">
+                    Clicked: <span data-testid="counter-value">0</span>
+                </button>
+                <button data-testid="btn-double-click" class="btn btn-secondary">Double-click me</button>
+            </div>
+            <p id="state-result" data-testid="state-result" class="result"></p>
+        </section>
+
+        <section class="section" id="icon-buttons">
+            <h2>Icon Buttons</h2>
+            <div class="row">
+                <button data-testid="btn-icon-edit" class="btn btn-icon" aria-label="Edit">✏️</button>
+                <button data-testid="btn-icon-delete" class="btn btn-icon" aria-label="Delete">🗑️</button>
+                <button data-testid="btn-icon-share" class="btn btn-icon" aria-label="Share">🔗</button>
+                <button data-testid="btn-copy" class="btn btn-outline" data-copy="Hello World!">
+                    📋 Copy to Clipboard
+                </button>
+            </div>
+            <p data-testid="copy-result" class="result"></p>
+        </section>
+
+        <section class="section" id="links">
+            <h2>Links</h2>
+            <div class="row">
+                <a href="/pages/forms.html" data-testid="link-internal">Internal link →</a>
+                <a href="https://playwright.dev" data-testid="link-external" target="_blank" rel="noopener noreferrer">
+                    External link ↗
+                </a>
+                <a href="/assets/sample.txt" data-testid="link-download" download>⬇ Download file</a>
+                <a href="#basic-buttons" data-testid="link-anchor">Anchor link</a>
+            </div>
+        </section>
+
+        <section class="section" id="keyboard">
+            <h2>Keyboard Shortcuts</h2>
+            <p class="hint">Press <kbd>Ctrl+K</kbd> to focus the search box</p>
+            <input type="text" data-testid="keyboard-search" placeholder="Focus with Ctrl+K…" class="input"
+                aria-label="Keyboard shortcut search" />
+            <p data-testid="keyboard-result" class="result"></p>
+        </section>
+
+    </main>
+
+    <script>
+        // Toggle button
+        const toggle = document.querySelector('[data-testid="btn-toggle"]');
+        toggle.addEventListener('click', () => {
+            const pressed = toggle.getAttribute('aria-pressed') === 'true';
+            toggle.setAttribute('aria-pressed', String(!pressed));
+            toggle.textContent = `Toggle (${!pressed ? 'ON' : 'OFF'})`;
+            document.querySelector('[data-testid="state-result"]').textContent =
+                `Toggle is ${!pressed ? 'ON' : 'OFF'}`;
+        });
+
+        // Counter button
+        let count = 0;
+        document.querySelector('[data-testid="btn-counter"]').addEventListener('click', () => {
+            count++;
+            document.querySelector('[data-testid="counter-value"]').textContent = count;
+        });
+
+        // Loading button
+        const loadBtn = document.querySelector('[data-testid="btn-loading"]');
+        loadBtn.addEventListener('click', async () => {
+            loadBtn.disabled = true;
+            loadBtn.textContent = 'Loading…';
+            loadBtn.setAttribute('aria-busy', 'true');
+            document.querySelector('[data-testid="state-result"]').textContent = 'Processing…';
+            await new Promise(r => setTimeout(r, 1500));
+            loadBtn.disabled = false;
+            loadBtn.textContent = 'Submit';
+            loadBtn.setAttribute('aria-busy', 'false');
+            document.querySelector('[data-testid="state-result"]').textContent = 'Done!';
+        });
+
+        // Double-click
+        document.querySelector('[data-testid="btn-double-click"]').addEventListener('dblclick', () => {
+            document.querySelector('[data-testid="state-result"]').textContent = 'Double-clicked!';
+        });
+
+        // Primary/secondary/danger/outline feedback
+        ['btn-primary', 'btn-secondary', 'btn-danger', 'btn-outline'].forEach(id => {
+            document.querySelector(`[data-testid="${id}"]`).addEventListener('click', e => {
+                document.querySelector('[data-testid="btn-result"]').textContent =
+                    `Clicked: ${e.currentTarget.textContent.trim()}`;
+            });
+        });
+
+        // Copy button
+        document.querySelector('[data-testid="btn-copy"]').addEventListener('click', async e => {
+            const text = e.currentTarget.getAttribute('data-copy');
+            await navigator.clipboard.writeText(text).catch(() => { });
+            document.querySelector('[data-testid="copy-result"]').textContent = `Copied: "${text}"`;
+        });
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('[data-testid="keyboard-search"]').focus();
+                document.querySelector('[data-testid="keyboard-result"]').textContent =
+                    'Ctrl+K triggered — search focused';
+            }
+        });
+    </script>
+</body>
+
+</html>

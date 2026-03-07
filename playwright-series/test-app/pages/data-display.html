@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Display — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>Data Display (Lessons 51–60)</span>
+    </nav>
+    <main class="container">
+
+        <!-- Sortable Table -->
+        <section class="section">
+            <h2>Sortable Table</h2>
+            <div style="display:flex;gap:.75rem;margin-bottom:1rem">
+                <input type="search" data-testid="table-search" class="input" style="max-width:240px"
+                    placeholder="🔍 Search users…" />
+            </div>
+            <table class="table" data-testid="users-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" data-testid="select-all" aria-label="Select all" />
+                        </th>
+                        <th>
+                            <button data-testid="sort-name"
+                                style="background:none;border:none;cursor:pointer;font-weight:600">
+                                Name <span data-testid="sort-name-icon">↕</span>
+                            </button>
+                        </th>
+                        <th>
+                            <button data-testid="sort-role"
+                                style="background:none;border:none;cursor:pointer;font-weight:600">
+                                Role <span data-testid="sort-role-icon">↕</span>
+                            </button>
+                        </th>
+                        <th>
+                            <button data-testid="sort-status"
+                                style="background:none;border:none;cursor:pointer;font-weight:600">
+                                Status <span data-testid="sort-status-icon">↕</span>
+                            </button>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody data-testid="table-body">
+                    <!-- Rows injected by JS -->
+                </tbody>
+            </table>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.75rem">
+                <span data-testid="table-count" style="font-size:.85rem;color:var(--muted)"></span>
+                <div style="display:flex;gap:.5rem">
+                    <button data-testid="table-prev" class="btn btn-outline" disabled>←</button>
+                    <button data-testid="table-next" class="btn btn-outline">→</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty state -->
+        <section class="section">
+            <h2>Empty State</h2>
+            <div data-testid="empty-state" style="text-align:center;padding:3rem 1rem">
+                <div style="font-size:3rem">📭</div>
+                <h3 style="margin:.75rem 0 .5rem">No results found</h3>
+                <p style="color:var(--muted);margin-bottom:1.5rem">Try adjusting your search or filters.</p>
+                <button data-testid="btn-clear-filters" class="btn btn-primary">Clear filters</button>
+            </div>
+        </section>
+
+        <!-- Skeleton loader -->
+        <section class="section">
+            <h2>Skeleton / Loading State</h2>
+            <div data-testid="skeleton-container">
+                <div class="skeleton-row" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+                    <div data-testid="skeleton-avatar"
+                        style="width:48px;height:48px;border-radius:50%;background:#e2e8f0;animation:pulse 1.5s infinite">
+                    </div>
+                    <div>
+                        <div data-testid="skeleton-title"
+                            style="width:160px;height:14px;border-radius:4px;background:#e2e8f0;animation:pulse 1.5s infinite;margin-bottom:.5rem">
+                        </div>
+                        <div data-testid="skeleton-subtitle"
+                            style="width:100px;height:12px;border-radius:4px;background:#e2e8f0;animation:pulse 1.5s infinite">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                @keyframes pulse {
+
+                    0%,
+                    100% {
+                        opacity: 1
+                    }
+
+                    50% {
+                        opacity: .45
+                    }
+                }
+            </style>
+        </section>
+
+    </main>
+
+    <script>
+        const users = [
+            { id: 1, name: 'Alice Johnson', role: 'Admin', status: 'active' },
+            { id: 2, name: 'Bob Smith', role: 'Editor', status: 'inactive' },
+            { id: 3, name: 'Carol White', role: 'Viewer', status: 'active' },
+            { id: 4, name: 'Dan Brown', role: 'Editor', status: 'active' },
+            { id: 5, name: 'Eve Davis', role: 'Viewer', status: 'suspended' },
+            { id: 6, name: 'Frank Lee', role: 'Admin', status: 'active' },
+        ];
+
+        let filtered = [...users];
+        let sortKey = null, sortDir = 1, page = 0;
+        const PER_PAGE = 3;
+
+        function renderTable() {
+            const tbody = document.querySelector('[data-testid="table-body"]');
+            const slice = filtered.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
+            tbody.innerHTML = slice.map(u => `
+        <tr data-testid="row-${u.id}">
+          <td><input type="checkbox" data-testid="select-row-${u.id}" aria-label="Select ${u.name}"/></td>
+          <td data-testid="cell-name-${u.id}">${u.name}</td>
+          <td data-testid="cell-role-${u.id}">${u.role}</td>
+          <td>
+            <span data-testid="status-${u.id}"
+                  style="padding:2px 8px;border-radius:999px;font-size:.75rem;font-weight:600;
+                  background:${u.status === 'active' ? '#dcfce7' : u.status === 'inactive' ? '#f1f5f9' : '#fee2e2'};
+                  color:${u.status === 'active' ? '#16a34a' : u.status === 'inactive' ? '#64748b' : '#dc2626'}">
+              ${u.status}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-icon" data-testid="edit-${u.id}" aria-label="Edit ${u.name}">✏️</button>
+            <button class="btn btn-icon" data-testid="delete-${u.id}" aria-label="Delete ${u.name}">🗑️</button>
+          </td>
+        </tr>`).join('');
+            document.querySelector('[data-testid="table-count"]').textContent =
+                `Showing ${Math.min(filtered.length, (page + 1) * PER_PAGE)} of ${filtered.length} users`;
+            document.querySelector('[data-testid="table-prev"]').disabled = page === 0;
+            document.querySelector('[data-testid="table-next"]').disabled = (page + 1) * PER_PAGE >= filtered.length;
+        }
+
+        document.querySelector('[data-testid="table-search"]').addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            filtered = users.filter(u => u.name.toLowerCase().includes(q) || u.role.toLowerCase().includes(q));
+            page = 0;
+            renderTable();
+        });
+
+        ['name', 'role', 'status'].forEach(key => {
+            document.querySelector(`[data-testid="sort-${key}"]`).addEventListener('click', () => {
+                if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
+                filtered.sort((a, b) => a[key].localeCompare(b[key]) * sortDir);
+                document.querySelectorAll('[data-testid^="sort-"][data-testid$="-icon"]').forEach(el => el.textContent = '↕');
+                document.querySelector(`[data-testid="sort-${key}-icon"]`).textContent = sortDir === 1 ? '↑' : '↓';
+                renderTable();
+            });
+        });
+
+        document.querySelector('[data-testid="table-prev"]').addEventListener('click', () => { page--; renderTable(); });
+        document.querySelector('[data-testid="table-next"]').addEventListener('click', () => { page++; renderTable(); });
+
+        renderTable();
+    </script>
+</body>
+
+</html>

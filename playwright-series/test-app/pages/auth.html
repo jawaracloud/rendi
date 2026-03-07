@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth Flows — Test Components</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav class="topbar">
+        <a href="/" data-testid="back-home">← Home</a>
+        <span>Auth Flows (Lessons 81–90)</span>
+    </nav>
+    <main class="container">
+
+        <!-- Login form -->
+        <section class="section" id="login" data-testid="login-section">
+            <h2>Login</h2>
+            <form data-testid="login-form" novalidate>
+                <div class="form-group">
+                    <label class="label" for="login-email">Email</label>
+                    <input id="login-email" data-testid="login-email" type="email" class="input"
+                        placeholder="you@example.com" autocomplete="email" />
+                    <span class="error-msg" data-testid="login-email-error">Please enter your email</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="login-password">Password</label>
+                    <input id="login-password" data-testid="login-password" type="password" class="input"
+                        placeholder="Password" autocomplete="current-password" />
+                    <span class="error-msg" data-testid="login-password-error">Please enter your password</span>
+                </div>
+                <div class="form-group" style="display:flex;align-items:center;justify-content:space-between">
+                    <label class="check-label">
+                        <input type="checkbox" data-testid="remember-me" /> Remember me
+                    </label>
+                    <a href="#" data-testid="forgot-password" style="font-size:.875rem">Forgot password?</a>
+                </div>
+                <button type="submit" data-testid="login-submit" class="btn btn-primary" style="width:100%">
+                    Sign In
+                </button>
+                <p data-testid="login-result" class="result" style="margin-top:.75rem"></p>
+            </form>
+            <p style="text-align:center;margin-top:1rem;font-size:.875rem;color:var(--muted)">
+                Don't have an account? <a href="#register" data-testid="goto-register">Sign up</a>
+            </p>
+        </section>
+
+        <!-- Register form -->
+        <section class="section" id="register" data-testid="register-section">
+            <h2>Register</h2>
+            <form data-testid="register-form" novalidate>
+                <div class="form-group">
+                    <label class="label" for="reg-name">Full Name</label>
+                    <input id="reg-name" data-testid="reg-name" type="text" class="input" placeholder="Alice Johnson"
+                        required minlength="2" />
+                    <span class="error-msg" data-testid="reg-name-error">Name must be at least 2 characters</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="reg-email">Email</label>
+                    <input id="reg-email" data-testid="reg-email" type="email" class="input"
+                        placeholder="you@example.com" required />
+                    <span class="error-msg" data-testid="reg-email-error">Please enter a valid email</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="reg-password">Password</label>
+                    <input id="reg-password" data-testid="reg-password" type="password" class="input"
+                        placeholder="Min 8 characters" required minlength="8" />
+                    <span class="error-msg" data-testid="reg-password-error">Password must be at least 8
+                        characters</span>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="reg-confirm">Confirm Password</label>
+                    <input id="reg-confirm" data-testid="reg-confirm" type="password" class="input"
+                        placeholder="Re-enter password" required />
+                    <span class="error-msg" data-testid="reg-confirm-error">Passwords do not match</span>
+                </div>
+                <button type="submit" data-testid="register-submit" class="btn btn-primary" style="width:100%">
+                    Create Account
+                </button>
+                <p data-testid="register-result" class="result" style="margin-top:.75rem"></p>
+            </form>
+        </section>
+
+        <!-- Protected area (visible after "login") -->
+        <section class="section" data-testid="protected-section" style="display:none">
+            <h2>🔓 Protected Dashboard</h2>
+            <p>Welcome, <strong data-testid="logged-in-user">—</strong>!</p>
+            <p style="margin:.75rem 0;color:var(--muted)">You have successfully logged in.</p>
+            <button data-testid="btn-logout" class="btn btn-outline">Logout</button>
+        </section>
+
+        <!-- CRUD demo -->
+        <section class="section">
+            <h2>CRUD — Todo List</h2>
+            <div style="display:flex;gap:.5rem;margin-bottom:1rem">
+                <input data-testid="todo-input" type="text" class="input" placeholder="Add a new task…"
+                    style="flex:1" />
+                <button data-testid="btn-add-todo" class="btn btn-primary">Add</button>
+            </div>
+            <ul data-testid="todo-list" style="list-style:none;display:flex;flex-direction:column;gap:.5rem">
+                <!-- Populated by JS -->
+            </ul>
+            <p data-testid="todo-count" class="hint" style="margin-top:.75rem">0 tasks</p>
+        </section>
+
+    </main>
+
+    <script>
+        // Credentials that count as "valid"
+        const VALID = { email: 'admin@test.com', password: 'password123' };
+
+        // ── Login ──────────────────────────────────────────────────────────
+        document.querySelector('[data-testid="login-form"]').addEventListener('submit', e => {
+            e.preventDefault();
+            const email = document.querySelector('[data-testid="login-email"]').value.trim();
+            const pw = document.querySelector('[data-testid="login-password"]').value;
+            const res = document.querySelector('[data-testid="login-result"]');
+            let valid = true;
+
+            const emailErr = document.querySelector('[data-testid="login-email-error"]');
+            if (!email) { emailErr.classList.add('visible'); valid = false; }
+            else emailErr.classList.remove('visible');
+
+            const pwErr = document.querySelector('[data-testid="login-password-error"]');
+            if (!pw) { pwErr.classList.add('visible'); valid = false; }
+            else pwErr.classList.remove('visible');
+
+            if (!valid) return;
+
+            if (email === VALID.email && pw === VALID.password) {
+                res.textContent = ''; res.className = 'result';
+                document.querySelector('[data-testid="login-section"]').style.display = 'none';
+                document.querySelector('[data-testid="protected-section"]').style.display = 'block';
+                document.querySelector('[data-testid="logged-in-user"]').textContent = email;
+            } else {
+                res.textContent = '❌ Invalid email or password.';
+                res.className = 'result err';
+            }
+        });
+
+        // ── Logout ─────────────────────────────────────────────────────────
+        document.querySelector('[data-testid="btn-logout"]').addEventListener('click', () => {
+            document.querySelector('[data-testid="login-section"]').style.display = 'block';
+            document.querySelector('[data-testid="protected-section"]').style.display = 'none';
+            document.querySelector('[data-testid="login-email"]').value = '';
+            document.querySelector('[data-testid="login-password"]').value = '';
+        });
+
+        // ── Register ───────────────────────────────────────────────────────
+        document.querySelector('[data-testid="register-form"]').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.querySelector('[data-testid="reg-name"]').value;
+            const email = document.querySelector('[data-testid="reg-email"]').value;
+            const pw = document.querySelector('[data-testid="reg-password"]').value;
+            const confirm = document.querySelector('[data-testid="reg-confirm"]').value;
+            const res = document.querySelector('[data-testid="register-result"]');
+            let valid = true;
+
+            [
+                ['reg-name-error', name.length >= 2],
+                ['reg-email-error', email.includes('@')],
+                ['reg-password-error', pw.length >= 8],
+                ['reg-confirm-error', pw === confirm && pw.length > 0],
+            ].forEach(([id, ok]) => {
+                const el = document.querySelector(`[data-testid="${id}"]`);
+                if (!ok) { el.classList.add('visible'); valid = false; }
+                else el.classList.remove('visible');
+            });
+
+            if (valid) { res.textContent = '✅ Account created! You can now log in.'; res.className = 'result ok'; }
+            else { res.textContent = '❌ Please fix the errors above.'; res.className = 'result err'; }
+        });
+
+        // ── CRUD Todo ──────────────────────────────────────────────────────
+        let todos = [];
+        let nextId = 1;
+
+        function renderTodos() {
+            const list = document.querySelector('[data-testid="todo-list"]');
+            list.innerHTML = todos.map(t => `
+        <li data-testid="todo-item-${t.id}"
+            style="display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;
+                   background:${t.done ? '#f1f5f9' : 'var(--card)'};border:1px solid var(--border);border-radius:8px">
+          <input type="checkbox" data-testid="todo-check-${t.id}" ${t.done ? 'checked' : ''} />
+          <span data-testid="todo-text-${t.id}"
+                style="${t.done ? 'text-decoration:line-through;color:var(--muted)' : ''};flex:1">${t.text}</span>
+          <button class="btn btn-icon" data-testid="todo-delete-${t.id}" aria-label="Delete">🗑️</button>
+        </li>`).join('');
+
+            todos.forEach(t => {
+                document.querySelector(`[data-testid="todo-check-${t.id}"]`).addEventListener('change', e => {
+                    t.done = e.target.checked; renderTodos();
+                });
+                document.querySelector(`[data-testid="todo-delete-${t.id}"]`).addEventListener('click', () => {
+                    todos = todos.filter(x => x.id !== t.id); renderTodos();
+                });
+            });
+
+            const count = todos.length;
+            const done = todos.filter(t => t.done).length;
+            document.querySelector('[data-testid="todo-count"]').textContent =
+                `${count} task${count !== 1 ? 's' : ''} · ${done} completed`;
+        }
+
+        document.querySelector('[data-testid="btn-add-todo"]').addEventListener('click', () => {
+            const input = document.querySelector('[data-testid="todo-input"]');
+            const text = input.value.trim();
+            if (!text) return;
+            todos.push({ id: nextId++, text, done: false });
+            input.value = '';
+            renderTodos();
+        });
+
+        document.querySelector('[data-testid="todo-input"]').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.querySelector('[data-testid="btn-add-todo"]').click();
+        });
+
+        renderTodos();
+    </script>
+</body>
+
+</html>
