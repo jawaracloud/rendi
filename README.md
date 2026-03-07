@@ -14,6 +14,7 @@ This directory contains experimental, cloud-native projects and production-grade
 | **[webassembly-series](./webassembly-series)** | 100-lesson learning series: WebAssembly with Rust & Leptos | Rust, Wasm, Leptos, Axum |
 | **[playwright-series](./playwright-series)** | 100-lesson UI component automation testing series | Playwright, TypeScript, Node.js |
 | **[ebpf-series](./ebpf-series)** | 100-lesson eBPF in container environments series | Go 1.26, cilium/ebpf, Docker, Kubernetes |
+| **[web3-series](./web3-series)** | 100-lesson Web3 ecosystem series | Go, Rust, Solidity, IPFS, Ethereum, Solana |
 
 ## 📖 Standards
 

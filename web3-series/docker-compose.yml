@@ -1,0 +1,32 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    image: web3-series-dev:latest
+    container_name: web3-series
+
+    volumes:
+      - .:/workspace
+      - go-cache:/go/pkg/mod
+      - cargo-cache:/home/vscode/.cargo/registry
+      - cargo-git-cache:/home/vscode/.cargo/git
+
+    ports:
+      - "8545:8545" # Anvil
+      - "8899:8899" # Solana Localnet
+      - "5001:5001" # IPFS
+
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    command: bash
+
+    environment:
+      - GOPATH=/go
+      - PATH=/usr/local/go/bin:/go/bin:/home/vscode/.cargo/bin:/home/vscode/.foundry/bin:/home/vscode/.local/share/solana/install/active_release/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+volumes:
+  go-cache:
+  cargo-cache:
+  cargo-git-cache:

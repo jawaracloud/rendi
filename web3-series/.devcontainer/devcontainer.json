@@ -1,0 +1,51 @@
+{
+    "name": "Web3 Ecosystem Series (Go + Rust)",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "forwardPorts": [
+        8545,
+        8899,
+        5001,
+        8080
+    ],
+    "portsAttributes": {
+        "8545": {
+            "label": "Anvil RPC (Ethereum Localnet)",
+            "onAutoForward": "silent"
+        },
+        "8899": {
+            "label": "Solana Localnet RPC",
+            "onAutoForward": "silent"
+        },
+        "5001": {
+            "label": "IPFS API",
+            "onAutoForward": "silent"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "editor.formatOnSave": true,
+                "go.formatTool": "goimports",
+                "go.lintTool": "golangci-lint",
+                "go.useLanguageServer": true,
+                "rust-analyzer.check.command": "clippy",
+                "solidity.compileUsingRemoteVersion": "v0.8.25+commit.b61c2a91",
+                "solidity.formatter": "forge",
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "golang.go",
+                "rust-lang.rust-analyzer",
+                "juanblanco.solidity",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode",
+                "yzhang.markdown-all-in-one"
+            ]
+        }
+    },
+    "remoteUser": "vscode",
+    "postCreateCommand": "bash /workspace/web3-series/scripts/verify-env.sh"
+}
