@@ -1,24 +1,16 @@
 # 98 — Account Abstraction (ERC-4337)
 
-> **Type:** Explanation | **Language Focus:** Solidity/Go
+> **Type:** Explanation | **Language Focus:** Theory
 
 ## Objective
+Understand how 'Smart Accounts' replace 'Private Key Accounts' (EOAs).
 
-Say goodbye to seed phrases: bundled transactions and paymasters.
+## Features
+- **Social Recovery**: Gain access without a seed phrase.
+- **Gas Abstraction**: Pay gas in USDC or have it sponsored by a 'Paymaster'.
+- **Bundling**: Approve and Swap in a single click.
+- **Security**: Custom logic like daily spending limits.
 
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Solidity/Go | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+## How it works
+Users send 'UserOperations' to a separate mempool. 'Bundlers' package these and send them to an 'EntryPoint' contract on-chain.
 

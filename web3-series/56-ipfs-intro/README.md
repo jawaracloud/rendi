@@ -3,22 +3,14 @@
 > **Type:** Explanation | **Language Focus:** Theory
 
 ## Objective
+Understand how Content IDs (CIDs) differ from location-based URLs.
 
-Why IPFS is crucial for censorship resistance vs centralized AWS.
-
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
+## HTTP vs IPFS
+- **HTTP**: "Get me the file at servers.com/cat.jpg". If the server moves, the link breaks.
+- **IPFS**: "Get me the file with hash Qm...cat". If anyone in the network has it, you get it.
 
 ## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Theory | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+- **Hashing**: SHA-256 (multihash).
+- **DAG (Directed Acyclic Graph)**: How larger files are split into chunks.
+- **Pinning**: Ensuring a node keeps a copy and doesn't garbage collect it.
 

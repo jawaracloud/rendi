@@ -3,22 +3,42 @@
 > **Type:** Tutorial | **Language Focus:** Rust
 
 ## Objective
+Write a basic Rust program that increments a counter on Solana.
 
-Write and deploy a counter program.
+## The Program (`lib.rs`)
 
-## Prerequisites
+```rust
+use anchor_lang::prelude::*;
 
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
+declare_id!("ProgramID...");
 
-## Key Concepts
+#[program]
+pub mod counter_program {
+    use super::*;
 
-| Concept | Description |
-|---------|-------------|
-| Rust | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
+    pub func initialize(ctx: Context<Initialize>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        counter.count = 0;
+        Ok(())
+    }
+
+    pub func increment(ctx: Context<Update>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        counter.count += 1;
+        Ok(())
+    }
+}
+
+#[account]
+pub struct Counter {
+    pub count: u64,
+}
+```
 
 ## Instructions
-
-(Detailed lesson content goes here...)
+1. `anchor init my-counter`
+2. Replace `programs/my-counter/src/lib.rs` with the code above.
+3. `anchor build`
+4. `solana-test-validator`
+5. `anchor deploy`
 

@@ -1,24 +1,18 @@
-# 99 — Building a Full-Stack DApp
+# 99 — Building a Full-Stack DApp (Go Backend)
 
-> **Type:** Tutorial | **Language Focus:** Go/Solidity
+> **Type:** Tutorial | **Language Focus:** Go + Solidity
 
 ## Objective
+The Capstone project: Connect a Solidity contract, a Go indexer, and an IPFS storage layer.
 
-Capstone: Smart contract, Go backend, unified state.
+## The Architecture
+1. **Foundry**: Smart contracts for voting.
+2. **Kubo (Go)**: Poll for IPFS CIDs where candidate bios are stored.
+3. **Go Backend**:
+    - Polls for `Voted` events via `ethclient`.
+    - Stores aggregated results in a cache.
+    - Serves a JSON API for the final results.
 
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Go/Solidity | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+## Final Instructions
+Run the integrated script in `scripts/deploy-capstone.sh` to see all components work together.
 

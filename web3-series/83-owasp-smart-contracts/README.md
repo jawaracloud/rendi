@@ -3,22 +3,16 @@
 > **Type:** Explanation | **Language Focus:** Solidity
 
 ## Objective
+Learn the 'Top 10' ways smart contracts get drained.
 
-Front-running, timestamp dependence, and uninitialized logic.
+## The Hall of Shame
+1. **Reentrancy**: Calling an external contract before updating your state.
+2. **Arithmetic Over/Underflow**: (Fixed in Solidity 0.8+ but still relevant for low-level math).
+3. **Access Control**: Missing `onlyOwner` or `onlyRole`.
+4. **Front-running**: Competitors seeing your transaction in the mempool and outbidding your gas.
+5. **Logic Errors**: Business logic bugs that bypass security.
 
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Solidity | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+## Mitigation
+- Use OpenZeppelin's `ReentrancyGuard`.
+- Always update state *before* external calls (Check-Effects-Interactions pattern).
 

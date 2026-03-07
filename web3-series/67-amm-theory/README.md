@@ -3,22 +3,16 @@
 > **Type:** Explanation | **Language Focus:** Theory
 
 ## Objective
+Master the Constant Product Formula: `x * y = k`.
 
-The x * y = k equation behind Uniswap.
-
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
+## The Math
+- **x**: Reserve of Token A.
+- **y**: Reserve of Token B.
+- **k**: The constant.
+When you swap A for B, `x` increases and `y` decreases, but the product `k` stays the same (ignoring fees).
 
 ## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Theory | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+- **Slippage**: Price movement during large trades.
+- **Impermanent Loss**: Value lost vs just holding tokens due to volatility.
+- **Liquidity Provision (LP)**: Earning fees by providing tokens to the pool.
 

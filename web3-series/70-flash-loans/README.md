@@ -1,24 +1,16 @@
 # 70 — Flash Loans: Concept and Go Simulation
 
-> **Type:** Tutorial | **Language Focus:** Go/Solidity
+> **Type:** Tutorial | **Language Focus:** Go + Solidity
 
 ## Objective
+Understand atomic transactions where you borrow millions without collateral—provided you pay it back in the same block.
 
-Borrow millions of dollars for exactly one transaction block.
-
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Go/Solidity | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
+## How it works
+1. **Borrow**: Your contract asks Aave/Uniswap for $1M.
+2. **Execute**: You perform an arbitrage or liquidation.
+3. **Repay**: You pay back $1M + small fee.
+4. **Verification**: If step 3 fails, the entire transaction (including step 1) is reverted as if it never happened.
 
 ## Instructions
-
-(Detailed lesson content goes here...)
+Review the `FlashLoanReceiver.sol` pattern in the reference material.
 

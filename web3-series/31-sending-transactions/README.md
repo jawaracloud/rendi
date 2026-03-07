@@ -3,22 +3,21 @@
 > **Type:** Tutorial | **Language Focus:** Go
 
 ## Objective
+Build, sign, and broadcast a transaction to transfer Ether or execute a contract.
 
-Build, sign, and broadcast an Ether transfer or contract write.
+## The Workflow
+1. **Nonce**: Get next available nonce for account.
+2. **Gas Price**: Suggested fee from node.
+3. **Transaction**: Create `types.NewTransaction`.
+4. **Sign**: Sign with private key using `types.SignTx`.
+5. **Send**: Broadcast with `SendTransaction`.
 
-## Prerequisites
-
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Go | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+## Sample (Transfer)
+```go
+nonce, _ := client.PendingNonceAt(ctx, fromAddress)
+gasPrice, _ := client.SuggestGasPrice(ctx)
+tx := types.NewTransaction(nonce, toAddress, value, 21000, gasPrice, nil)
+signedTx, _ := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
+err := client.SendTransaction(ctx, signedTx)
+```
 

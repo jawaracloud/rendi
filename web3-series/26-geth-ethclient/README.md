@@ -3,22 +3,36 @@
 > **Type:** Explanation | **Language Focus:** Go
 
 ## Objective
+Learn how to use the `ethclient` package to speak to Ethereum nodes from a Go application.
 
-Initialize the official Go implementation client for Ethereum.
+## Simple Connection
 
-## Prerequisites
+```go
+package main
 
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
+import (
+	"context"
+	"fmt"
+	"log"
+	"github.com/ethereum/go-ethereum/ethclient"
+)
+
+func main() {
+	client, err := ethclient.Dial("https://cloudflare-eth.com")
+	if err != nil {
+		log.Fatalf("Failed to connect: %v", err)
+	}
+
+	header, err := client.HeaderByNumber(context.Background(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Latest Block: %d\n", header.Number.Uint64())
+}
+```
 
 ## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Go | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+- **JSON-RPC**: The transport protocol.
+- **Dial**: Establishing a connection (supports HTTP, WS, and IPC).
 

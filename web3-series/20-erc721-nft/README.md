@@ -3,22 +3,30 @@
 > **Type:** Tutorial | **Language Focus:** Solidity
 
 ## Objective
+Implementation of a Non-Fungible Token (NFT) using the OpenZeppelin library.
 
-Mint unique digital assets as Non-Fungible Tokens.
+## The Code
 
-## Prerequisites
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.25;
 
-- Read through the environment setup in the root `README.md`.
-- Ensure your dev container or local environment passes `verify-env.sh`.
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract MyNFT is ERC721, Ownable {
+    uint256 private _nextTokenId;
+
+    constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {}
+
+    function safeMint(address to) public onlyOwner {
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(to, tokenId);
+    }
+}
+```
 
 ## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| Solidity | Primary language/tool used in this lesson. |
-| Web3 | Decentralized internet protocols. |
-
-## Instructions
-
-(Detailed lesson content goes here...)
+- **_safeMint**: Ensures the receiving address is a contract that can handle ERC-721s (prevents 'lost' NFTs).
+- **Ownable**: Restricts minting to the contract creator.
 
