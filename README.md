@@ -8,13 +8,13 @@ This directory contains experimental, cloud-native projects and production-grade
 | :--- | :--- | :--- |
 | **[waiting-room-demo](./waiting-room-demo)** | Cloudflare-style virtual waiting room | Go, DragonFlyDB, NATS |
 | **[k8s-operator-pubsub](./k8s-operator-pubsub)** | Kubernetes operator with auto-scaling | Go, Kubernetes, Redis |
-| **[chaos-engineering-litmus](./chaos-engineering-litmus)** | Chaos engineering experiments | LitmusChaos, K8s |
 | **[nats-event-driven-demo](./nats-event-driven-demo)** | Event-driven microservices | Go, NATS JetStream |
 | **[golang-pubsub](./golang-pubsub)** | Real-time TUI dashboard for Pub/Sub | Go, Bubble Tea, Redis |
 | **[webassembly-series](./webassembly-series)** | 100-lesson learning series: WebAssembly with Rust & Leptos | Rust, Wasm, Leptos, Axum |
 | **[playwright-series](./playwright-series)** | 100-lesson UI component automation testing series | Playwright, TypeScript, Node.js |
 | **[ebpf-series](./ebpf-series)** | 100-lesson eBPF in container environments series | Go 1.26, cilium/ebpf, Docker, Kubernetes |
 | **[web3-series](./web3-series)** | 100-lesson Web3 ecosystem series | Go, Rust, Solidity, IPFS, Ethereum, Solana |
+| **[chaos-engineering-series](./chaos-engineering-series)** | 100-lesson Chaos Engineering series — from first experiments to production GameDay | Go, LitmusChaos, Chaos Mesh, Toxiproxy, k6, Prometheus, Grafana |
 
 ## 📖 Standards
 
